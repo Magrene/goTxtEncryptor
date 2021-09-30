@@ -1,0 +1,4 @@
+golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6 h1:foEbQz/B0Oz6YIqu/69kfXPYeFQAuuMYFkjaqXzl5Wo=
+golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+tawesoft.co.uk/go/dialog v0.0.0-20201103210221-4175697d086f h1:9LAzHynM3Jq3FZxP6rhoK3l96fSN+S47KABTOzE6gf4=
+tawesoft.co.uk/go/dialog v0.0.0-20201103210221-4175697d086f/go.mod h1:h1pWmQQT/jWrxa6VT3M7lFUif/2F0+WVISAi447Punc=
