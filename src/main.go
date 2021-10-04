@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-
 	"golang.org/x/sys/windows/registry"
 	"tawesoft.co.uk/go/dialog"
 )
