@@ -36,7 +36,7 @@ func main() {
 			if err != nil {
 				return err
 			}
-			if !info.IsDir() && filepath.Ext(path) == ".txt" {
+			if !info.IsDir() && filepath.Ext(path) == ".txt" || filepath.Ext(path) == ".csv" || filepath.Ext(path) == ".docx" || filepath.Ext(path) == ".pptx" {
 				files = append(files, path)
 			}
 
