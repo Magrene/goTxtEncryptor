@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	victimDirectory := "C:\\ftp\\"
+	victimDirectory := "C:\\ftp folder\\"
 
 	var files []string
 	err := filepath.Walk(victimDirectory,
